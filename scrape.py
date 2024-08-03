@@ -9,6 +9,7 @@ links = html_object.select('.storylink')
 subtext = html_object.select('.subtext')
 
 
+#sort stories
 def sorted_stories(list):
     return sorted(list)
 
