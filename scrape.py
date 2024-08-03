@@ -4,14 +4,21 @@ import pprint
 
 
 response = requests.get('https://news.ycombinator.com/news')
+response2 = requests.get('https://news.ycombinator.com/news?p=2')
 html_object = BeautifulSoup(response.text, 'html.parser')
-links = html_object.select('.storylink')
+html_object2 = BeautifulSoup(response2.text, 'html.parser')
+links = html_object.select('.titleline')
+links2 = html_object2.select('.titleline')
 subtext = html_object.select('.subtext')
+subtext2 = html_object2.select('.subtext')
+
+mega_links = links + links2
+mega_subtext = subtext + subtext2
 
 
 #sort stories
-def sorted_stories(list):
-    return sorted(list)
+def sorted_stories(hnlist):
+    return sorted(hnlist, key= lambda k:k['votes'], reverse=True)
 
 # Creates personal Hacker News if points > 100
 def personal_hn(links, subtext):
@@ -28,4 +35,4 @@ def personal_hn(links, subtext):
     return sorted_stories(hacker_news)
 
 
-pprint.pprint(personal_hn(links, subtext))
+pprint.pprint(personal_hn(mega_links, mega_subtext))
